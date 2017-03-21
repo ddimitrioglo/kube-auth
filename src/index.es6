@@ -1,2 +1,2 @@
-export * from '/lib/CaptchaChecker';
-export * from '/lib/EmailSender';
+export * from 'CaptchaChecker';
+export * from 'EmailSender';
