@@ -4,3 +4,9 @@
 # Dependency directories
 /lib/
 /node_modules/
+
+# npm cache directory
+.npm
+
+# Logs
+*.log
