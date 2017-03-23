@@ -1,2 +1,4 @@
-export {CaptchaChecker} from './CaptchaChecker';
-export {EmailSender} from './EmailSender';
+import {CaptchaChecker} from './CaptchaChecker';
+import {EmailSender} from './EmailSender';
+
+export default {CaptchaChecker, EmailSender};

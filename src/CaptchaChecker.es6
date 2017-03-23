@@ -22,10 +22,12 @@ export class CaptchaChecker {
       https.get(this._getVerifyUrl(), res => {
         let rawData = '';
 
-        res.on('data', (chunk) => {rawData += chunk;});
-        res.on('end', () => {resolve(rawData);});
+        res.on('data', data => {rawData += data;});
+        res.on('end', () => {
+          resolve(JSON.parse(rawData));
+        });
 
-      }).on('error', (err) => {
+      }).on('error', err => {
         reject(err);
       });
     });

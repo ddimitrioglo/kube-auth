@@ -7,12 +7,6 @@ export class EmailSender {
   /**
    * @param ses
    * @param params
-   * @example {
-   *  sourceEmail: 'qa@gmail.com:QA department',
-   *  destinationEmails: 'support@gmail.com:Support, admin@gmail.com:Admin',
-   *  subject: 'Email subject',
-   *  body: '<div>Email body</div>'
-   * }
    */
   constructor(ses, params) {
     this._ses = ses;
@@ -55,7 +49,7 @@ export class EmailSender {
     let email = parts[0].trim();
     let name = (parts[1]) ? parts[1].trim() : '';
 
-    return (name != '') ? `${name} <${email}>` : email;
+    return (name !== '') ? `${name} <${email}>` : email;
   }
 
   /**
