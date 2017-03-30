@@ -1,6 +1,6 @@
 {
   "name": "aws-ses-helper",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Set of helpers for AWS.SES",
   "keywords": [
     "AWS.SES",
@@ -20,6 +20,7 @@
     "babel-preset-es2015": "^6.24.0"
   },
   "dependencies": {
-    "html-to-text": "^3.2.0"
+    "html-to-text": "^3.2.0",
+    "twig": "^1.10.4"
   }
 }

@@ -52,14 +52,12 @@ checker.checkCaptcha().then(res => {
 });
 ```
 
-## Plans...
+## In Progress...
 
-We are going to add:
-- Simple object validator helper;
-- Email template engine helper.
+We are working on `EmailTemplate` helper now.
 
 Have an idea how to improve this module? 
-Feel fre to contribute or open an issue with `enhancement` label.
+Feel free to contribute or open an issue with `enhancement` label.
 
 ## License
 
