@@ -18,12 +18,14 @@ import AWS from 'aws-sdk'
 import ASH from 'aws-ses-helper';
 ```
 
-And you are ready to use `EmailSender`: 
+#### EmailSender
+
+Follow this example to send email by AWS.SES: 
 
 ```javascript
 let config = {
   sourceEmail: 'qa@gmail.com:QA department',
-  destinationEmails: 'support@gmail.com:Support, admin@gmail.com:Admin',
+  destinationEmails: 'support@gmail.com, admin@gmail.com:Admin',
   subject: 'Email subject',
   body: '<div>Email body</div>'
 };
@@ -36,6 +38,8 @@ sender.sendEmail().then(res => {
   // error
 });
 ```
+
+#### CaptchaChecker
 
 If you want to use Google reCaptcha, just validate your captcha response and then send your email:
 
@@ -52,7 +56,7 @@ checker.checkCaptcha().then(res => {
 });
 ```
 
-## EmailTemplate
+#### EmailTemplate
 
 Let's assume that we have following email template:
  
@@ -66,7 +70,7 @@ Let's assume that we have following email template:
 </html>
 ```
 
-To render it - just do this:
+To render it, just do this:
 
 ```javascript
 let tmpl = new ASH.EmailTemplate('message.twig', {
