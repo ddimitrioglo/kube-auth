@@ -52,9 +52,35 @@ checker.checkCaptcha().then(res => {
 });
 ```
 
-## In Progress...
+## EmailTemplate
 
-We are working on `EmailTemplate` helper now.
+Let's assume that we have following email template:
+ 
+```html
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+  <body>
+    Hello, {{ Name }}!
+  </body>
+</html>
+```
+
+To render it - just do this:
+
+```javascript
+let tmpl = new ASH.EmailTemplate('message.twig', {
+  Name: 'Linus Torvalds'
+});
+
+tmpl.render().then(res => {
+  // rendered html response
+}).catch(err => {
+  // request error
+});
+```
+
+## Improvements
 
 Have an idea how to improve this module? 
 Feel free to contribute or open an issue with `enhancement` label.

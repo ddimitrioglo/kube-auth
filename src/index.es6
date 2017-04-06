@@ -1,4 +1,5 @@
-import {CaptchaChecker} from './CaptchaChecker';
 import {EmailSender} from './EmailSender';
+import {EmailTemplate} from './EmailTemplate';
+import {CaptchaChecker} from './CaptchaChecker';
 
-export default {CaptchaChecker, EmailSender};
+export default {CaptchaChecker, EmailSender, EmailTemplate};
