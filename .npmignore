@@ -1,5 +1,2 @@
 # IntelliJ files
 .idea
-
-# Ignore ES6 source files
-/src/

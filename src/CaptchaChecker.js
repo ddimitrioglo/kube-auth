@@ -1,8 +1,8 @@
 'use strict';
 
-import https from 'https';
+const https = require('https');
 
-export class CaptchaChecker {
+class CaptchaChecker {
 
   /**
    * @param captchaSecret
@@ -42,3 +42,5 @@ export class CaptchaChecker {
     return `https://www.google.com/recaptcha/api/siteverify?secret=${this._secret}&response=${this._response}`
   }
 }
+
+module.exports = CaptchaChecker;

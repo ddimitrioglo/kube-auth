@@ -1,24 +1,17 @@
 {
   "name": "aws-ses-helper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Set of helpers for AWS.SES",
   "keywords": [
     "AWS.SES",
     "Google reCAPTCHA"
   ],
   "repository": "ddimitrioglo/aws-ses-helper",
-  "main": "lib/index.js",
-  "scripts": {
-    "compile": "node_modules/.bin/babel --presets es2015 src --out-dir lib",
-    "prepublish": "npm run compile"
-  },
+  "main": "bootstrap.js",
+  "scripts": {},
   "author": "ddimitrioglo",
   "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-core": "^6.24.0",
-    "babel-preset-es2015": "^6.24.0"
-  },
+  "devDependencies": {},
   "dependencies": {
     "html-to-text": "^3.2.0",
     "twig": "^1.10.4"

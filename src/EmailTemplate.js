@@ -1,10 +1,10 @@
 'use strict';
 
-import fs from 'fs'
-import Twig from 'twig';
-import https from 'https'
+const fs = require('fs');
+const Twig = require('twig');
+const https = require('https');
 
-export class EmailTemplate {
+class EmailTemplate {
 
   /**
    * @param path
@@ -62,3 +62,5 @@ export class EmailTemplate {
   }
 
 }
+
+module.exports = EmailTemplate;

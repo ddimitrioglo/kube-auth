@@ -1,8 +1,8 @@
 'use strict';
 
-import htmlToText from 'html-to-text';
+const htmlToText = require('html-to-text');
 
-export class EmailSender {
+class EmailSender {
 
   /**
    * @param ses
@@ -61,3 +61,5 @@ export class EmailSender {
   }
 
 }
+
+module.exports = EmailSender;
