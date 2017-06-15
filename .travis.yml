@@ -1,0 +1,16 @@
+language: node_js
+git:
+  depth: 1
+branches:
+  only:
+  - master
+install:
+  - npm install
+script:
+  - echo "script step" && SUCCESS=1
+after_success:
+  - echo "success"
+after_failure:
+  - echo "error"
+after_script:
+  - echo "error ${SUCCESS}"
