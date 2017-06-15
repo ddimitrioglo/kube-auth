@@ -14,8 +14,8 @@ npm install aws-ses-helper
 Just include the library along to aws-sdk:
 
 ```javascript
-import AWS from 'aws-sdk'
-import ASH from 'aws-ses-helper';
+const AWS = require('aws-sdk');
+const ASH = require('aws-ses-helper');
 ```
 
 #### EmailSender
