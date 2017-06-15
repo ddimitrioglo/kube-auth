@@ -52,7 +52,7 @@ let checker = new ASH.CaptchaChecker(captchaSecret, captchaResponse);
 checker.checkCaptcha().then(res => {
   // response from google
 }).catch(err => {
-  // request error
+  // error
 });
 ```
 
