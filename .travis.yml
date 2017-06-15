@@ -4,6 +4,9 @@ git:
 branches:
   only:
   - master
+env:
+  global:
+    - SUCCESS=2
 install:
   - npm install
 script:
