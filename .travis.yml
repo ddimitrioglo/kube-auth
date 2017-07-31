@@ -3,14 +3,22 @@ git:
   depth: 1
 branches:
   only:
-  - master
+    - master
+    - dev
+env:
+  global:
+    - SUCCESS=master
+before_install:
+  - echo "Prepare modules and variables"
 install:
   - npm install
-script:
-  - echo "script step" && SUCCESS=1
-after_success:
-  - echo "success"
-after_failure:
-  - echo "error"
-after_script:
-  - echo "error ${SUCCESS}"
+
+jobs:
+  include:
+    - stage: "Unit test"
+      node_js: [6, 8]
+      script:
+        - echo "This is my '${SUCCESS}' environment"
+    - stage: "Publish"
+      node_js: 6
+      script: echo "Publish job"

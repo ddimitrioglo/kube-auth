@@ -14,8 +14,8 @@ npm install aws-ses-helper
 Just include the library along to aws-sdk:
 
 ```javascript
-import AWS from 'aws-sdk'
-import ASH from 'aws-ses-helper';
+const AWS = require('aws-sdk');
+const ASH = require('aws-ses-helper');
 ```
 
 #### EmailSender
@@ -44,8 +44,8 @@ sender.sendEmail().then(res => {
 If you want to use Google reCaptcha, just validate your captcha response and then send your email:
 
 ```javascript
-let captchaSecret = 'your_google_captcha_secret_here';
-let captchaResponse = 'your_google_captcha_response_here';
+const captchaSecret = 'your_google_captcha_secret_here';
+const captchaResponse = 'your_google_captcha_response_here';
 
 let checker = new ASH.CaptchaChecker(captchaSecret, captchaResponse);
 
