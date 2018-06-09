@@ -10,28 +10,24 @@ This is a simple npm module with set of helpers for `aws-sdk`.
 npm install aws-assistant
 ```
 
-## Usage
-
-Just include the library along to aws-sdk:
-
-```javascript
-const AWS = require('aws-sdk');
-const { EmailSender } = require('aws-assistant');
-```
+## Usage examples
 
 #### EmailSender
 
 Follow this example to send email by AWS.SES: 
 
 ```javascript
-let config = {
+const AWS = require('aws-sdk');
+const { EmailSender } = require('aws-assistant');
+
+const config = {
   sourceEmail: 'qa@gmail.com:QA department',
   destinationEmails: 'support@gmail.com, admin@gmail.com:Admin',
   subject: 'Email subject',
   body: '<div>Email body</div>'
 };
 
-let sender = new ASH.EmailSender(new AWS.SES(), config);
+const sender = new EmailSender(new AWS.SES(), config);
 
 sender.sendEmail().then(res => {
   // response 
@@ -45,10 +41,12 @@ sender.sendEmail().then(res => {
 If you want to use Google reCaptcha, just validate your captcha response and then send your email:
 
 ```javascript
+
+const { CaptchaChecker } = require('aws-assistant');
+
 const captchaSecret = 'your_google_captcha_secret_here';
 const captchaResponse = 'your_google_captcha_response_here';
-
-let checker = new ASH.CaptchaChecker(captchaSecret, captchaResponse);
+const checker = new CaptchaChecker(captchaSecret, captchaResponse);
 
 checker.checkCaptcha().then(res => {
   // response from google
@@ -74,9 +72,10 @@ Let's assume that we have following email template:
 To render it, just do this:
 
 ```javascript
-let tmpl = new ASH.EmailTemplate('message.twig', {
-  Name: 'Linus Torvalds'
-});
+
+const { EmailTemplate } = require('aws-assistant');
+
+const tmpl = new EmailTemplate('message.twig', { Name: 'Linus Torvalds' });
 
 tmpl.render().then(res => {
   // rendered html response

@@ -1,6 +1,6 @@
 {
   "name": "aws-assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Set of helpers for aws-sdk",
   "repository": "ddimitrioglo/aws-assistant",
   "main": "index.js",
