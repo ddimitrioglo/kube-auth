@@ -1,12 +1,13 @@
-# aws-ses-helper
+# aws-assistant
 
-This is a simple npm module with set of helpers for Amazon Simple Email Service (Amazon SES). 
+This is a simple npm module with set of helpers for `aws-sdk`. 
 
-## Installation guide
+> ⚠️ The repo is under refactoring 👷
 
+## Installation
 
 ```bash
-npm install aws-ses-helper
+npm install aws-assistant
 ```
 
 ## Usage
@@ -15,7 +16,7 @@ Just include the library along to aws-sdk:
 
 ```javascript
 const AWS = require('aws-sdk');
-const ASH = require('aws-ses-helper');
+const { EmailSender } = require('aws-assistant');
 ```
 
 #### EmailSender

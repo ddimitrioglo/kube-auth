@@ -3,7 +3,6 @@
 const https = require('https');
 
 class CaptchaChecker {
-
   /**
    * @param captchaSecret
    * @param captchaResponse
@@ -14,7 +13,7 @@ class CaptchaChecker {
   }
 
   /**
-   * Check if recaptcha response is valid
+   * Check if reCaptcha response is valid
    * @returns {Promise}
    */
   checkCaptcha() {
