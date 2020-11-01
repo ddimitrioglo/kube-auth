@@ -1,0 +1,11 @@
+# IntelliJ files
+.idea
+
+# Node.js related
+node_modules
+
+# Logs
+*.log
+
+# Other
+.DS_Store
