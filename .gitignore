@@ -4,6 +4,13 @@
 # Node.js related
 node_modules
 
+# Compiled
+dist
+!dist/.gitkeep
+
+# Secrets
+ext.pem
+
 # Logs
 *.log
 

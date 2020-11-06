@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KubeAuth configuration</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="app">
+        <div v-for="(cluster, uuid) in clusters">
+            <p>{{ cluster.cluster }}</p>
+            <small>{{ cluster.domain }}</small>
+            <small>{{ cluster.profile }}</small>
+            <button v-on:click="removeCluster(uuid)">Удалить</button>
+        </div>
+        <form v-on:submit.prevent="addCluster">
+            <input v-model="cluster" placeholder="Cluster name">
+            <input v-model="domain" placeholder="Dashboard domain">
+            <input v-model="profile" placeholder="AWS profile name">
+            <button>Add</button>
+        </form>
+    </div>
+
+    <script src="js/popup.js"></script>
+</body>
+</html>

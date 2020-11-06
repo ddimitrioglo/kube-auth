@@ -1,0 +1,9 @@
+Usage: kube-auth [command] [options]
+
+Commands:
+  configure --browser <browser> ........... Configure native messaging port
+  whereis ................................. Show where unpacked extension is located
+
+Options:
+  -v, --version ........................... Print kube-auth version
+  -h, --help .............................. Print help

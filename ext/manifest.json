@@ -1,33 +1,25 @@
 {
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ks3i0ewzLaxhMjzhcOfTCE3WHaMdgHpxcDuEkh4SQ4QWLvl4+iBGs2iLuSo9ru6fV/xg6NcO9JJmTKYf8bqkd4CJCMUD2qbPga6SK0vOzU13Q37rjwGpmulYvXvlWz9ifi8A7Mt2AlyWRcukxB360MHSKxvl6Sp+o6WaTLfAdFvI4b/xTZL47MwbcybDc6vOaI8zdo/CI37S8jKK8xNY8EEpTbn0LcMGaHG9l2JKO29nMoY5qhKXnM+iu9fN4cQYV+hzjOhtHozJVgxQ1UjEuCTV7c3v7foAwXfKJMq8Rr9uRRwnluwFxhozkue0O0fQ0RDyCI361fPgUahUip72wIDAQAB",
   "name": "KubeAuth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "manifest_version": 2,
-  "description": "Easy way to login into kubernetes dashboard",
+  "description": "An easy way to login into Kubernetes dashboard",
   "icons": {
     "128": "img/icon-128.png"
   },
   "browser_action": {
-    "default_popup": "index.html"
+    "default_popup": "popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "js/jquery-3.5.1.min.js",
-        "js/api.js",
-        "js/content.js"
-      ]
-    }
-  ],
   "background": {
-    "scripts": [
-      "js/background.js"
-    ],
-    "persistent": false
+    "scripts": ["js/background.js"],
+    "persistent": true
   },
   "permissions": [
-    "storage"
-  ]
+    "<all_urls>",
+    "storage",
+    "nativeMessaging",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'"
 }

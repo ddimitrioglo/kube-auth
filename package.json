@@ -1,6 +1,6 @@
 {
   "name": "kube-auth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Easy way to login into kubernetes dashboard",
   "keywords": [
     "kubernetes",
@@ -9,8 +9,18 @@
     "token"
   ],
   "author": "ddimitrioglo",
-  "main": "src/index.js",
+  "bin": {
+    "kube-auth": "src/cli.js"
+  },
   "license": "MIT",
+  "dependencies": {
+    "execa": "^4.1.0",
+    "fs-extra": "^9.0.1",
+    "getos": "^3.2.1",
+    "minimist": "^1.2.5",
+    "native-messaging": "^1.0.0",
+    "twig": "^1.15.2"
+  },
   "devDependencies": {
     "@types/chrome": "0.0.126",
     "@types/jquery": "^3.5.4"

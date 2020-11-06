@@ -6,7 +6,9 @@
  */
 function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    const r = Math.random() * 16 | 0;
+    const v = 'x' === c ? r : (r & 0x3 | 0x8);
+
     return v.toString(16);
   });
 }
@@ -17,86 +19,157 @@ function uuid() {
 class Store {
   #map;
 
-  /**
-   * @returns {Promise<Map>}
-   */
-  async #getMap() {
-    if (this.#map) {
-      return this.#map;
-    }
-
-    return new Promise((resolve) => {
-      chrome.storage.local.get((values) => {
-        this.#map = new Map(Object.entries(values));
-        return resolve(this.#map);
-      });
-    });
+  constructor(values = {}) {
+    this.#map = new Map(Object.entries(values));
   }
 
-  /**
-   * Return plain json and save to local storage
-   * @returns {Promise<Object>}
-   */
-  async toJson() {
-    const map = await this.#getMap();
-    const data = Object.fromEntries(map);
-
-    return new Promise((resolve) => {
-      chrome.storage.local.set(data, () => {
-        return resolve(data);
-      });
-    })
+  json() {
+    return Object.fromEntries(this.#map);
   }
 
-  async get(key) {
-    const map = await this.#getMap();
-    return map.get(key);
+  get(key) {
+    return this.#map.get(key);
   }
 
-  async set(key, value) {
-    const map = await this.#getMap();
-    return map.set(key, value);
+  set(key, value) {
+    this.#map.set(key, value);
+    chrome.storage.local.set({ [key]: value });
+
+    return this;
   }
 
-  async keys() {
-    const map = await this.#getMap();
-    return Object.keys(Object.fromEntries(map));
+  keys() {
+    return Object.keys(Object.fromEntries(this.#map));
   }
 
-  async delete(key) {
-    const map = await this.#getMap();
-    return map.delete(key);
+  delete(key) {
+    this.#map.delete(key);
+    chrome.storage.local.remove(key);
   }
 }
 
 const storage = new Store();
 
 /**
+ * @param {string} action
+ * @param {any} [payload]
+ * @returns {Promise<{data, error}>}
+ */
+async function doAction(action, payload) {
+  const hostName = 'kube.auth.host';
+
+  return new Promise((resolve) => {
+    chrome.runtime.sendNativeMessage(hostName, { action, payload }, (result) => {
+      return resolve(result);
+    });
+  });
+}
+
+/**
+ * @param {string} clusterId
+ * @returns {Promise<void>}
+ */
+async function refreshToken(clusterId) {
+  const config = storage.get(clusterId);
+
+  return doAction('nm.token.get', { cluster: config.cluster, profile: config.profile }).then(res => {
+    if (res.error) {
+      throw new Error(res.error);
+    }
+
+    config.token = res.data || {};
+    storage.set(clusterId, config);
+  });
+}
+
+/**
+ * @note all actions should be prefixed by `bg.*` (means background)
  * @param {{action, payload}} request
  * @param {chrome.runtime.MessageSender} sender
  * @returns {Promise<{data, error}>}
  */
 async function requestHandler(request, sender) {
   switch (request.action) {
-    case 'handshake':
-      return {};
-    case 'storage.get':
-      return { data: await storage.toJson() };
-    case 'storage.add':
-      await storage.set(uuid(), request.payload);
-      return { data: await storage.toJson() };
-    case 'storage.del':
-      await storage.delete(request.payload);
-      return { data: await storage.toJson() };
+    case 'bg.storage.list':
+      return { data: storage.json() };
+    case 'bg.storage.add':
+      storage.set(uuid(), request.payload);
+      return { data: storage.json() };
+    case 'bg.storage.del':
+      storage.delete(request.payload);
+      return { data: storage.json() };
     default:
       return { error: 'No matching action found' };
   }
 }
 
-/**
- * Main message listener
- */
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  requestHandler(request, sender).then(sendResponse);
-  return true;
-});
+function headersMiddleware(details) {
+  for (const clusterId of storage.keys()) {
+    const config = storage.get(clusterId);
+
+    // If request is not from configured list, skip it
+    if (config.domain !== details.initiator) {
+      continue;
+    }
+
+    if (!config.token) {
+      // Generate token
+      void refreshToken(clusterId);
+      continue;
+    }
+
+    if (config.token.expiresAt < Date.now()) {
+      // Renew token (the original is still valid)
+      void refreshToken(clusterId);
+    }
+
+    details.requestHeaders.push({
+      name: 'authorization',
+      value: `Bearer ${config.token.value}`,
+    });
+
+    return { requestHeaders: details.requestHeaders };
+  }
+
+}
+
+// Check if Native Messaging is properly configured
+doAction('nm.handshake')
+  .then((result = {}) => {
+    if (chrome.runtime.lastError) {
+      throw new Error(chrome.runtime.lastError.message);
+    }
+
+    console.info('Native messaging is ready', result);
+    return Promise.resolve();
+  })
+  // Populate storage with data from storage
+  .then(() => {
+    return new Promise((resolve) => {
+      chrome.storage.local.get((values) => {
+        Object.entries(values || {}).forEach(([uuid, config]) => {
+          storage.set(uuid, config);
+        });
+
+        return resolve();
+      });
+    });
+  })
+  // Initialize listeners
+  .then(() => {
+    // Main message listener (async)
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      requestHandler(request, sender).then(sendResponse);
+      return true;
+    });
+
+    // Headers listener (sync)
+    chrome.webRequest.onBeforeSendHeaders.addListener(
+      headersMiddleware,
+      { urls: ["<all_urls>"], types: ['main_frame', 'xmlhttprequest'] },
+      ['blocking', 'requestHeaders'],
+    );
+  })
+  .catch(error => {
+    console.warn('KubeAuth error', error.message, error.stack);
+  });

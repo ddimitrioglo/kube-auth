@@ -1,0 +1,59 @@
+#!{{ interpreter }}
+
+const { command } = require('execa');
+const sendMessage = require('native-messaging')(handleMessage);
+
+const DEFAULT_SPAWN_ENV_PATH = '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin';
+const envs = {
+  ...process.env,
+  PATH: DEFAULT_SPAWN_ENV_PATH
+};
+
+/**
+ * @param {string} clusterName
+ * @param {string} profile
+ * @returns {Promise}
+ */
+async function getToken(clusterName, profile) {
+  return command(`aws eks get-token --cluster-name ${clusterName} --profile ${profile}`, { env: envs })
+    .then(({ stdout }) => {
+      const { status } = JSON.parse(stdout);
+      const expiration = new Date(status?.expirationTimestamp).getTime();
+      const ttl = (expiration - Date.now()) * 0.8;
+
+      return {
+        expiresAt: Date.now() + ttl,
+        value: status.token
+      };
+    }).catch(error => {
+      if (error.shortMessage) {
+        error.message = error.shortMessage
+      }
+
+      throw error;
+    });
+}
+
+/**
+ * @note all actions should be prefixed by `nm.*` (means native message)
+ * @param {{action, payload}} request
+ * @returns {Promise<{[data], [error]}>}
+ */
+async function requestHandler(request) {
+  switch (request.action) {
+    case 'nm.handshake':
+      return { data: { execPath: process.execPath }};
+    case 'nm.token.get':
+      const { cluster, profile } = request.payload || {};
+
+      return getToken(cluster, profile)
+        .then(result => ({ data: result }))
+        .catch(err => ({ error: err.message, stack: err.stack }));
+    default:
+      return { error: 'No matching action found' };
+  }
+}
+
+async function handleMessage(request) {
+  return requestHandler(request).then(sendMessage);
+}
