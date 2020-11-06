@@ -1,0 +1,12 @@
+# IDE
+.idea
+
+# Compiled
+dist
+
+# Secrets
+.env
+*.pem
+
+# Logs
+*.log

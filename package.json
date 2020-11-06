@@ -9,6 +9,11 @@
     "token"
   ],
   "author": "ddimitrioglo",
+  "homepage": "https://github.com/ddimitrioglo/kube-auth#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddimitrioglo/kube-auth"
+  },
   "bin": {
     "kube-auth": "src/cli.js"
   },
@@ -22,7 +27,6 @@
     "twig": "^1.15.2"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.126",
-    "@types/jquery": "^3.5.4"
+    "@types/chrome": "0.0.126"
   }
 }

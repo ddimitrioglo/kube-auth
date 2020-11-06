@@ -1,15 +1,16 @@
-# IntelliJ files
+# IDE
 .idea
 
 # Node.js related
 node_modules
 
 # Compiled
-dist
+dist/*
 !dist/.gitkeep
 
 # Secrets
-ext.pem
+.env
+*.pem
 
 # Logs
 *.log
