@@ -52,14 +52,17 @@ class ConfigureCommand extends Command {
     switch (os) {
       case 'darwin':
         if ('chrome' === browser) {
+          // ~/Library/Application Support/Google/Chrome/NativeMessagingHosts/host.json
           return join(homedir(), '/Library/Application Support/Google/Chrome/NativeMessagingHosts', `${Util.hostName()}.json`)
         }
-        // ~/Library/Application Support/Google/Chrome/NativeMessagingHosts/host.json
         // ~/Library/Application Support/Chromium/NativeMessagingHosts/host.json
         // ~/Library/Application Support/Mozilla/NativeMessagingHosts/host.json
         throw new Error('Unsupported browser');
       case 'linux':
-        // ~/.config/google-chrome/NativeMessagingHosts/host.json
+        if ('chrome' === browser) {
+          // ~/.config/google-chrome/NativeMessagingHosts/host.json
+          return join(homedir(), '.config/google-chrome/NativeMessagingHosts', `${Util.hostName()}.json`)
+        }
         // ~/.config/chromium/NativeMessagingHosts/host.json
         // ~/.mozilla/native-messaging-hosts/host.json
         throw new Error('Unsupported browser');

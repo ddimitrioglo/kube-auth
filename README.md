@@ -7,9 +7,9 @@
 ### Description
 
 The goal of this package (the combination of npm package and browser extension) is to provide an easier way
-to login into Kubernetes dashboard on an Amazon EKS cluster then described on [Amazon's blog][5]
+to login into Kubernetes dashboard on an Amazon EKS cluster then described on [Amazon's blog][5].
 
-Previously you had to manually generate and paste the token from the CLI into the "Enter token box" and then choose "Sign in".
+Previously you had to manually generate and paste the token from the CLI into the "Enter token" input and then choose "Sign in".
 
 If you are lazy like me, then most probably you find it boring as heck 🥱, so what if you could configure it once
 on your machine and forget about this routine 🤯? And yes, now you can do it!   
