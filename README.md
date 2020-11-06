@@ -1,22 +1,30 @@
 ## KubeAuth
 
-An easy way to login into Kubernetes dashboard.
+<img src="https://raw.githack.com/ddimitrioglo/kube-auth/master/ext/img/icon-128.png"/>
+
+#### An easy way to login into Kubernetes dashboard
 
 ### Description
 
 The goal of this package (the combination of npm package and browser extension) is to provide an easier way
 to login into Kubernetes dashboard on an Amazon EKS cluster then described on [Amazon's blog][5]
 
-Previously you had to manually generate and paste the token from the CLI into the "Enter token box" and then choose SIGN-IN.
+Previously you had to manually generate and paste the token from the CLI into the "Enter token box" and then choose "Sign in".
 
 If you are lazy like me, then most probably you find it boring as heck 🥱, so what if you could configure it once
-on your machine and forget about this routine 🤯? And yes, now you can!   
+on your machine and forget about this routine 🤯? And yes, now you can do it!   
+
+### Prerequisites
+
+* Node.js v8+
+* `aws-cli` installed & configured
+* `kubectl` installed & configured
 
 ### Installation
 
 * `npm install -g kube-auth`
 * `kube-auth configure --browser chrome`
-* Open [Chrome extensions][chrome://extensions/] page
+* Open `chrome://extensions/` page
 * Enable developer mode
 * Press "Load unpacked" and select the directory returned by a `kube-auth whereis` command
 * Click on extension icon (browser extension bar) and fill Amazon EKS cluster information
