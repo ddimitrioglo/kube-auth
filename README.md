@@ -18,7 +18,7 @@ on your machine and forget about this routine 🤯? And yes, now you can do it!
 
 * Node.js v8+
 * `aws-cli` installed & configured
-* `kubectl` installed & configured
+* Make sure your AWS user has access to AWS EKS cluster
 
 ### Installation
 
@@ -48,6 +48,8 @@ on your machine and forget about this routine 🤯? And yes, now you can do it!
     }
   });
 ```
+- [ ] Add tests
+- [ ] Move host generation into separate package (after good testing)
 
 ### Improvements
 

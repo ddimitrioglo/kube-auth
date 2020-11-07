@@ -13,16 +13,13 @@ class ConfigureCommand extends Command {
    */
   async run() {
     const os = await this.getOs();
-
-    if ('win32' === os) {
-      throw Error('Windows is not supported yet...');
-    }
+    const browser = this.getOption('browser', 'b', 'chrome').toLowerCase();
 
     const dist = join(__dirname, '../../dist');
     const hostExecTempPath = join(__dirname, '../tmpl/host.js.twig');
     const hostExecDestPath = join(dist, 'host.js');
     const hostTmplPath = join(__dirname, `../tmpl/${Util.hostName()}.json.twig`);
-    const hostDestPath = this.getHostPath(os, this.getOption('browser', 'b', 'chrome').toLowerCase());
+    const hostDestPath = this.getHostPath(os, browser);
 
     removeSync(hostExecDestPath);
 
@@ -35,8 +32,12 @@ class ConfigureCommand extends Command {
       extensionId: Util.extensionId(),
     }));
 
-    // @note needed only for unix systems
-    chmodSync(hostExecDestPath, '755');
+    if ('win32' === os) {
+      // REG ADD ???
+      throw Error('Windows is not supported yet...');
+    } else {
+      chmodSync(hostExecDestPath, '755');
+    }
 
     await copy(join(__dirname, '../../ext'), dist);
 
@@ -44,6 +45,7 @@ class ConfigureCommand extends Command {
   }
 
   /**
+   * @link https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests#Manifest_location
    * @param {'darwin'|'win32'|'linux'} os
    * @param {'chrome'|'chromium'|'mozilla'} browser
    * @returns {string}
@@ -52,24 +54,24 @@ class ConfigureCommand extends Command {
     switch (os) {
       case 'darwin':
         if ('chrome' === browser) {
-          // ~/Library/Application Support/Google/Chrome/NativeMessagingHosts/host.json
+          // ~/Library/Application Support/Google/Chrome/NativeMessagingHosts/<name>.json
           return join(homedir(), '/Library/Application Support/Google/Chrome/NativeMessagingHosts', `${Util.hostName()}.json`)
         }
-        // ~/Library/Application Support/Chromium/NativeMessagingHosts/host.json
-        // ~/Library/Application Support/Mozilla/NativeMessagingHosts/host.json
+        // ~/Library/Application Support/Mozilla/NativeMessagingHosts/<name>.json
+        // ~/Library/Application Support/Chromium/NativeMessagingHosts/<name>.json
         throw new Error('Unsupported browser');
       case 'linux':
         if ('chrome' === browser) {
-          // ~/.config/google-chrome/NativeMessagingHosts/host.json
+          // ~/.config/google-chrome/NativeMessagingHosts/<name>.json
           return join(homedir(), '.config/google-chrome/NativeMessagingHosts', `${Util.hostName()}.json`)
         }
-        // ~/.config/chromium/NativeMessagingHosts/host.json
-        // ~/.mozilla/native-messaging-hosts/host.json
+        // ~/.config/chromium/NativeMessagingHosts/<name>.json
+        // ~/.mozilla/native-messaging-hosts/<name>.json
         throw new Error('Unsupported browser');
       case 'win32':
-        // C:\Users\<Username>\AppData + REG ADD ???
-        // HKEY_CURRENT_USER\Software\Mozilla\NativeMessagingHosts\host
-        throw new Error('Unsupported browser');
+        // If there is no strict location of host (bridge) file, then let's keep it inside the package
+        return join(join(__dirname, '../../dist', `${Util.hostName()}.json`));
+        // HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\<name>
       default:
         throw new Error('Unknown OS');
     }

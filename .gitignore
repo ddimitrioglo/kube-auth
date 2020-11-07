@@ -5,8 +5,7 @@
 node_modules
 
 # Compiled
-dist/*
-!dist/.gitkeep
+dist
 
 # Secrets
 .env
