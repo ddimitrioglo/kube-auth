@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>KubeAuth configuration</title>
-
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div id="app">
-        <div v-for="(cluster, uuid) in clusters">
-            <p>{{ cluster.cluster }}</p>
-            <small>{{ cluster.domain }}</small>
-            <small>{{ cluster.profile }}</small>
-            <button v-on:click="removeCluster(uuid)">Удалить</button>
+    <div class="container">
+        <div class="header-title">KubeAuth</div>
+        <div id="app">
+            <div class="app-items">
+                <div class="item" v-for="(cluster, uuid) in clusters">
+                    <a class="url" target="_blank" v-bind:href="cluster.domain">{{ cluster.domain }}</a>
+                    <div><a class="cluster" target="_blank" v-bind:href="cluster.domain">{{ cluster.profile }}</a> -
+                         <a class="cluster" target="_blank" v-bind:href="cluster.domain">{{ cluster.cluster }}</a></div>
+                    <div class="delete" v-on:click="removeCluster(uuid)"></div>
+                </div>
+                <form class="new-item" v-on:submit.prevent="addCluster">
+                    <input class="url" v-model="domain" placeholder="Dashboard domain">
+                    <input class="profile" v-model="profile" placeholder="AWS profile name">
+                    <input class="cluster" v-model="cluster" placeholder="Cluster name">
+                    <button class="add"></button>
+                </form>
+            </div>
         </div>
-        <form v-on:submit.prevent="addCluster">
-            <input v-model="cluster" placeholder="Cluster name">
-            <input v-model="domain" placeholder="Dashboard domain">
-            <input v-model="profile" placeholder="AWS profile name">
-            <button>Add</button>
-        </form>
     </div>
-
     <script src="js/popup.js"></script>
 </body>
 </html>
