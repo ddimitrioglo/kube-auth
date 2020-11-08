@@ -40,14 +40,6 @@ on your machine and forget about this routine 🤯? And yes, now you can do it!
 - [ ] Use Mozilla's [polyfill][4] in order to support Chrome, Firefox, Opera & Edge 
 - [ ] Get rid of `native-messaging` library (maybe...)
 - [ ] Think about installing browser extension automatically (see [docs][6])
-- [ ] Dynamically change the icon 
-```javascript
-  chrome.browserAction.setIcon({
-    path: {
-      128: 'img/some.png'
-    }
-  });
-```
 - [ ] Add tests
 - [ ] Move host generation into separate package (after good testing)
 

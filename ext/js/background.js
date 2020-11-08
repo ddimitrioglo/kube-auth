@@ -93,6 +93,7 @@ async function requestHandler(request, sender) {
     case 'bg.storage.list':
       return { data: storage.json() };
     case 'bg.storage.add':
+      console.log('request.payload');
       storage.set(uuid(), request.payload);
       return { data: storage.json() };
     case 'bg.storage.del':
@@ -137,10 +138,17 @@ function headersMiddleware(details) {
 doAction('nm.handshake')
   .then((result = {}) => {
     if (chrome.runtime.lastError) {
-      throw new Error(chrome.runtime.lastError.message);
+      console.warn('Native messaging configuration issue:', chrome.runtime.lastError.message);
+      // Set greyed icon
+      chrome.browserAction.setIcon({
+        path: {
+          128: 'img/icon-128-greyed.png'
+        }
+      });
+    } else {
+      console.info('Native messaging is ready:', result);
     }
 
-    console.info('Native messaging is ready', result);
     return Promise.resolve();
   })
   // Populate storage with data from storage
