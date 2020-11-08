@@ -93,7 +93,6 @@ async function requestHandler(request, sender) {
     case 'bg.storage.list':
       return { data: storage.json() };
     case 'bg.storage.add':
-      console.log('request.payload');
       storage.set(uuid(), request.payload);
       return { data: storage.json() };
     case 'bg.storage.del':
