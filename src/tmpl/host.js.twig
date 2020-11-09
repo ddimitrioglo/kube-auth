@@ -17,8 +17,8 @@ const envs = {
 async function getToken(clusterName, profile) {
   return command(`aws eks get-token --cluster-name ${clusterName} --profile ${profile}`, { env: envs })
     .then(({ stdout }) => {
-      const { status } = JSON.parse(stdout);
-      const expiration = new Date(status?.expirationTimestamp).getTime();
+      const { status = {} } = JSON.parse(stdout);
+      const expiration = new Date(status.expirationTimestamp).getTime();
       const ttl = (expiration - Date.now()) * 0.8;
 
       return {
