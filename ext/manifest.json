@@ -1,7 +1,7 @@
 {
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3ks3i0ewzLaxhMjzhcOfTCE3WHaMdgHpxcDuEkh4SQ4QWLvl4+iBGs2iLuSo9ru6fV/xg6NcO9JJmTKYf8bqkd4CJCMUD2qbPga6SK0vOzU13Q37rjwGpmulYvXvlWz9ifi8A7Mt2AlyWRcukxB360MHSKxvl6Sp+o6WaTLfAdFvI4b/xTZL47MwbcybDc6vOaI8zdo/CI37S8jKK8xNY8EEpTbn0LcMGaHG9l2JKO29nMoY5qhKXnM+iu9fN4cQYV+hzjOhtHozJVgxQ1UjEuCTV7c3v7foAwXfKJMq8Rr9uRRwnluwFxhozkue0O0fQ0RDyCI361fPgUahUip72wIDAQAB",
   "name": "KubeAuth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
   "description": "An easy way to login into Kubernetes dashboard",
   "icons": {

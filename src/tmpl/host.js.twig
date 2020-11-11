@@ -1,13 +1,22 @@
 #!{{ interpreter }}
 
+const { homedir } = require('os');
 const { command } = require('execa');
 const sendMessage = require('native-messaging')(handleMessage);
 
-const DEFAULT_SPAWN_ENV_PATH = '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin';
-const envs = {
-  ...process.env,
-  PATH: DEFAULT_SPAWN_ENV_PATH
-};
+const EXECUTABLE_PATHS = [
+  `${homedir()}/.local/bin/`,
+  '/usr/local/bin',
+  '/usr/bin',
+  '/bin',
+  '/usr/local/sbin',
+  '/usr/sbin',
+  '/sbin'
+];
+
+// WINDOWS %PATH% might needed - %SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem
+
+const envs = { ...process.env, PATH: EXECUTABLE_PATHS.join(':') };
 
 /**
  * @param {string} clusterName
